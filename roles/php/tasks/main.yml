@@ -27,37 +27,7 @@
   - "php7.4-xmlrpc"
   - "php7.4-zip"
 
-- name: Set PHP user
-  lineinfile:
-    dest: /etc/php/7.4/fpm/pool.d/www.conf
-    regexp: "^user"
-    line: "user = {{ username }}"
-    state: present
-  notify: restart php
 
-- name: Set PHP group
-  lineinfile:
-    dest: /etc/php/7.4/fpm/pool.d/www.conf
-    regexp: "^group"
-    line: "group = {{ username }}"
-    state: present
-  notify: restart php
-
-- name: Set PHP listen owner
-  lineinfile:
-    dest: /etc/php/7.4/fpm/pool.d/www.conf
-    regexp: "^listen\\.owner"
-    line: "listen.owner = {{ username }}"
-    state: present
-  notify: restart php
-
-- name: Set PHP listen group
-  lineinfile:
-    dest: /etc/php/7.4/fpm/pool.d/www.conf
-    regexp: "^listen\\.group"
-    line: "listen.group = {{ username }}"
-    state: present
-  notify: restart php
 
 - name: Set PHP upload max filesize
   lineinfile:

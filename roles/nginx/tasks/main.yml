@@ -22,7 +22,7 @@
 
 - name: Clone Nginx configs
   git:
-    repo: https://github.com/A5hleyRich/wordpress-nginx.git
+    repo: https://github.com/spinupwp/wordpress-nginx
     dest: /etc/nginx
     version: master
     force: yes
@@ -35,10 +35,5 @@
     state: link
   notify: reload nginx
 
-- name: Set Nginx user
-  lineinfile:
-    dest: /etc/nginx/nginx.conf
-    regexp: "^user"
-    line: "user {{ username }};"
-    state: present
+
   notify: restart nginx

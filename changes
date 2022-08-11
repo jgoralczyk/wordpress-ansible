@@ -1,0 +1,56 @@
+- name: Create default user
+  user:
+    name: "{{ username }}"
+    groups: sudo
+    password: "{{ password }}"
+    shell: /bin/bash
+    update_password: always
+    state: present
+
+
+- name: Add authorized key
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', public_key) }}"
+    
+    https://github.com/A5hleyRich/wordpress-nginx.git
+    
+    
+    - name: Set Nginx user
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    regexp: "^user"
+    line: "user {{ username }};"
+    state: present
+    
+    - name: Set PHP user
+  lineinfile:
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
+    regexp: "^user"
+    line: "user = {{ username }}"
+    state: present
+  notify: restart php
+
+- name: Set PHP group
+  lineinfile:
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
+    regexp: "^group"
+    line: "group = {{ username }}"
+    state: present
+  notify: restart php
+
+- name: Set PHP listen owner
+  lineinfile:
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
+    regexp: "^listen\\.owner"
+    line: "listen.owner = {{ username }}"
+    state: present
+  notify: restart php
+
+- name: Set PHP listen group
+  lineinfile:
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
+    regexp: "^listen\\.group"
+    line: "listen.group = {{ username }}"
+    state: present
+  notify: restart php
